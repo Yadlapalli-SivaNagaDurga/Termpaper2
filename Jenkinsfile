@@ -13,12 +13,11 @@ pipeline {
         }
 
         stage('Build Docker Image') {
-            steps {
-                script {
-                    sh "docker build -t $IMAGE_NAME ."
-                }
-            }
-        }
+    steps {
+        bat 'docker build -t myimage .'
+    }
+}
+
 
         stage('Snyk Scan') {
             steps {
