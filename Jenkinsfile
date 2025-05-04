@@ -22,8 +22,8 @@ pipeline {
         stage('Snyk Scan') {
             steps {
                 script {
-                    sh "snyk test --json > snyk_report.json || true"
-                    sh "snyk test --docker $IMAGE_NAME --json > snyk_docker_report.json || true"
+                    bat "snyk test --json > snyk_report.json || true"
+                    bat "snyk test --docker $IMAGE_NAME --json > snyk_docker_report.json || true"
                 }
             }
         }
@@ -31,18 +31,18 @@ pipeline {
         stage('RL Decision') {
             steps {
                 script {
-                    sh 'python3 rl_decision.py'
+                    bat 'python3 rl_decision.py'
                 }
             }
         }
 
         stage('Deploy Container') {
             when {
-                expression { sh(script: 'python3 rl_decision.py', returnStatus: true) == 0 }
+                expression { bat(script: 'python3 rl_decision.py', returnStatus: true) == 0 }
             }
             steps {
                 script {
-                    sh "docker run -d -p 8501:8501 $IMAGE_NAME"
+                    bat "docker run -d -p 8501:8501 $IMAGE_NAME"
                 }
             }
         }
