@@ -22,7 +22,7 @@ pipeline {
         stage('Snyk Scan') {
             steps {
                 script {
-                    bat "snyk test --json > snyk_report.json || true"
+                    bat 'snyk test --json > snyk_report.json || exit 0'
                     bat "snyk test --docker $IMAGE_NAME --json > snyk_docker_report.json || true"
                 }
             }
